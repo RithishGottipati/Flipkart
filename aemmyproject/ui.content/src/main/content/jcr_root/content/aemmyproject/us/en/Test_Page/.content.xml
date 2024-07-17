@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<jcr:root xmlns:sling="http://sling.apache.org/jcr/sling/1.0" xmlns:cq="http://www.day.com/jcr/cq/1.0" xmlns:jcr="http://www.jcp.org/jcr/1.0" xmlns:nt="http://www.jcp.org/jcr/nt/1.0"
+    jcr:primaryType="cq:Page">
+    <jcr:content
+        cq:lastModified="{Date}2024-07-11T14:59:18.786+05:30"
+        cq:lastModifiedBy="admin"
+        cq:template="/conf/aemmyproject/settings/wcm/templates/page-content"
+        jcr:primaryType="cq:PageContent"
+        jcr:title="Test_Page"
+        sling:resourceType="aemmyproject/components/page"
+        pageTitle="Test Page">
+        <root
+            jcr:primaryType="nt:unstructured"
+            sling:resourceType="aemmyproject/components/container"
+            layout="responsiveGrid">
+            <container
+                jcr:primaryType="nt:unstructured"
+                sling:resourceType="aemmyproject/components/container"
+                layout="responsiveGrid">
+                <title
+                    jcr:primaryType="nt:unstructured"
+                    sling:resourceType="aemmyproject/components/title"/>
+                <container
+                    jcr:primaryType="nt:unstructured"
+                    sling:resourceType="aemmyproject/components/container"
+                    layout="responsiveGrid">
+                    <header
+                        jcr:created="{Date}2024-07-11T14:59:18.783+05:30"
+                        jcr:createdBy="admin"
+                        jcr:lastModified="{Date}2024-07-11T14:59:18.783+05:30"
+                        jcr:lastModifiedBy="admin"
+                        jcr:primaryType="nt:unstructured"
+                        sling:resourceType="aemmyproject/components/nav-components/header"/>
+                </container>
+            </container>
+        </root>
+    </jcr:content>
+</jcr:root>
