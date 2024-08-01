@@ -1,0 +1,123 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Sign Up / Log In Page</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            margin: 0;
+            background-color: #f4f4f4;
+        }
+        .container {
+            display: flex;
+            background-color: #fff;
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+            border-radius: 8px;
+            overflow: hidden;
+            max-width: 600px;
+            width: 100%;
+        }
+        .left-panel {
+            background-color: #2874f0;
+            color: #fff;
+            padding: 40px;
+            width: 50%;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            text-align: center;
+        }
+        .right-panel {
+            padding: 40px;
+            width: 50%;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+        }
+        .right-panel input {
+            margin-bottom: 20px;
+            padding: 10px;
+            border: 1px solid #ccc;
+            border-radius: 4px;
+            width: 100%;
+            box-sizing: border-box;
+        }
+        .right-panel button {
+            padding: 10px;
+            background-color: #ff5722;
+            color: #fff;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+            width: 100%;
+            box-sizing: border-box;
+        }
+        .right-panel a {
+            color: #2874f0;
+            text-decoration: none;
+            text-align: center;
+            display: block;
+            margin-top: 10px;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="left-panel" id="leftPanel">
+            <h2 id="leftPanelTitle">Looks like you're new here!</h2>
+            <p id="leftPanelText">Sign up with your details to get started</p>
+        </div>
+        <div class="right-panel" id="rightPanel">
+            <form id="signupForm" method="" action="/bin/signup">
+                <input type="text" name="username" placeholder="Enter Username" required>
+                <input type="password" name="password" placeholder="Enter Password" required>
+                <input type="password" name="confirmPassword" placeholder="Confirm Password" required>
+                <button type="submit">SIGN UP</button>
+            </form>
+            <a href="#" id="toggleForm">Existing User? Log in</a>
+        </div>
+    </div>
+
+    <script>
+        document.getElementById('toggleForm').addEventListener('click', function(event) {
+            event.preventDefault();
+            const leftPanelTitle = document.getElementById('leftPanelTitle');
+            const leftPanelText = document.getElementById('leftPanelText');
+            const signupForm = document.getElementById('signupForm');
+            const toggleFormLink = document.getElementById('toggleForm');
+
+            if (signupForm.getAttribute('method') === 'GET') {
+                leftPanelTitle.textContent = 'Welcome back!';
+                leftPanelText.textContent = 'Log in with your credentials';
+                signupForm.innerHTML = `
+                    <input type="text" name="username" placeholder="Enter Username" required>
+                    <input type="password" name="password" placeholder="Enter Password" required>
+                    <button type="submit">LOG IN</button>
+                `;
+                signupForm.setAttribute('method', 'GET');
+                signupForm.setAttribute('action', '/services/login'); // Update to your login servlet
+                toggleFormLink.textContent = 'New User? Sign up';
+            } else {
+                leftPanelTitle.textContent = 'Looks like you\'re new here!';
+                leftPanelText.textContent = 'Sign up with your details to get started';
+                signupForm.innerHTML = `
+                    <input type="text" name="username" placeholder="Enter Username" required>
+                    <input type="password" name="password" placeholder="Enter Password" required>
+                    <input type="password" name="confirmPassword" placeholder="Confirm Password" required>
+                    <button type="submit">SIGN UP</button>
+                `;
+                signupForm.setAttribute('method', 'GET');
+                signupForm.setAttribute('action', '/bin/signup');
+                toggleFormLink.textContent = 'Existing User? Log in';
+            }
+        });
+    </script>
+</body>
+</html>
