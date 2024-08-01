@@ -17,6 +17,9 @@ import java.io.IOException;
 import java.nio.charset.StandardCharsets;
 import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
+import java.net.HttpURLConnection;
+import java.net.URL;
+import java.util.Base64;
 
 @Component(service = Servlet.class,
         property = {
@@ -27,6 +30,7 @@ public class LoginServlet extends SlingAllMethodsServlet {
 
     private static final Logger LOG = LoggerFactory.getLogger(LoginServlet.class);
     private static final String DATA_FILE_PATH = "/Users/rithishgottipati/Desktop/AEM/aem-sdk/AEM_Backend/aemmyproject/ui.content/src/main/content/jcr_root/content/dam/aemmyproject/userdata.json";
+    private static final String FILE_CHECK_URL = "/services/checkfile"; // Path to the FileCheckServlet
 
     @Override
     protected void doGet(SlingHttpServletRequest request, SlingHttpServletResponse response) throws IOException {
@@ -39,6 +43,13 @@ public class LoginServlet extends SlingAllMethodsServlet {
             response.setStatus(SlingHttpServletResponse.SC_BAD_REQUEST);
             response.getWriter().write("Invalid input");
             LOG.error("Invalid input: username or password is null");
+            return;
+        }
+
+        if (!checkFileExists()) {
+            response.setStatus(SlingHttpServletResponse.SC_INTERNAL_SERVER_ERROR);
+            response.getWriter().write("User data file not found or created");
+            LOG.error("User data file not found or created");
             return;
         }
 
@@ -86,5 +97,24 @@ public class LoginServlet extends SlingAllMethodsServlet {
             sb.append(String.format("%02x", b));
         }
         return sb.toString();
+    }
+
+    private boolean checkFileExists() {
+        try {
+            URL url = new URL("http://localhost:4502" + FILE_CHECK_URL);
+            HttpURLConnection connection = (HttpURLConnection) url.openConnection();
+            connection.setRequestMethod("GET");
+
+            // Basic Authentication header
+            String userCredentials = "admin:admin"; // Use actual credentials
+            String basicAuth = "Basic " + new String(Base64.getEncoder().encode(userCredentials.getBytes()));
+            connection.setRequestProperty("Authorization", basicAuth);
+
+            int responseCode = connection.getResponseCode();
+            return responseCode == HttpURLConnection.HTTP_OK;
+        } catch (IOException e) {
+            LOG.error("Error checking file existence", e);
+            return false;
+        }
     }
 }
